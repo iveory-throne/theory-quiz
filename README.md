@@ -13,8 +13,7 @@ Discover your inner nobility through the IVEORY Theory Assessment. Journey into 
 - **◊ Theory of Purity** - Aria, The Countess
 - **⚜ Theory of Elegance** - Kumi, The Princess
 
-# ☀️ Take the Quiz
-[**Begin Your Journey →**](https://iveory-throne.github.io/theory-quiz/)
+## ☀️ Take the Quiz [**Begin Your Journey →**](https://iveory-throne.github.io/theory-quiz/)
 
 ---
 *Visit the [IVEORY THRONE](https://thisisiveory.crd.co) for more.*
