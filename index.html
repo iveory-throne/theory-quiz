@@ -72,6 +72,17 @@
             transform: scale(1.05);
         }
 
+        .logo-fallback {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #C4ACE3, #B8DCF2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            display: none;
+        }
+
         .subtitle {
             font-size: 1.1rem;
             color: #1A1A1A;
@@ -402,7 +413,8 @@
     <div class="quiz-container">
         <div class="header">
             <div class="logo">
-                <img src="https://raw.githubusercontent.com/iveory-throne/theory-quiz/bfb07be7a2057e3d8c252892b27d4b8c03acf571/images/iveory-logo.png" alt="IVEORY" class="logo-img">
+                <img src="https://raw.githubusercontent.com/iveory-throne/theory-quiz/main/images/iveory-logo.png" alt="IVEORY" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="logo-fallback">IVEORY</div>
             </div>
             <div class="subtitle">Discover Your Inner Theory</div>
         </div>
