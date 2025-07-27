@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IVEORY Theory Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #F8F6F0 0%, #C4ACE3 50%, #B8DCF2 100%);
+            color: #1A1A1A;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #C4ACE3, #B8DCF2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #1A1A1A;
+            font-weight: 500;
+            margin-bottom: 20px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .welcome-page {
+            background: rgba(248, 246, 240, 0.95);
+            border-radius: 25px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(26, 26, 26, 0.1);
+            border: 2px solid rgba(196, 172, 227, 0.3);
+            animation: slideInUp 0.6s ease-out;
+            position: relative;
+        }
+
+        .welcome-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #C4ACE3, #B8DCF2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .welcome-description {
+            font-size: 1.1rem;
+            color: #1A1A1A;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .theory-preview {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin: 35px 0;
+            padding: 25px;
+            background: rgba(248, 246, 240, 0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(196, 172, 227, 0.2);
+        }
+
+        .theory-icon {
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theory-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .theory-icon:nth-child(1) { color: #2C5F7A; } /* Serenity - Deep blue */
+        .theory-icon:nth-child(2) { color: #D4574A; } /* Softness - Rose/coral */
+        .theory-icon:nth-child(3) { color: #8B4A94; } /* Grace - Purple */
+        .theory-icon:nth-child(4) { color: #C7834B; } /* Timelessness - Bronze/gold */
+        .theory-icon:nth-child(5) { color: #4A7C8B; } /* Purity - Teal */
+        .theory-icon:nth-child(6) { color: #6B8B4A; } /* Elegance - Sage green */
+
+        .start-btn {
+            background: linear-gradient(135deg, #C4ACE3, #B8DCF2);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(196, 172, 227, 0.3);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(196, 172, 227, 0.4);
+        }
+
+        .quiz-card {
+            background: rgba(248, 246, 240, 0.95);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(26, 26, 26, 0.1);
+            border: 2px solid rgba(196, 172, 227, 0.3);
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .question h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #1A1A1A;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .option {
+            background: linear-gradient(135deg, #F8F6F0 0%, #E8E6E3 100%);
+            border: 2px solid #E8E6E3;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .option:hover {
+            border-color: #C4ACE3;
+            background: linear-gradient(135deg, #F8F6F0 0%, rgba(196, 172, 227, 0.1) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(196, 172, 227, 0.2);
+        }
+
+        .option.selected {
+            border-color: #C4ACE3;
+            background: linear-gradient(135deg, rgba(196, 172, 227, 0.2) 0%, rgba(184, 220, 242, 0.2) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(196, 172, 227, 0.3);
+        }
+
+        .option-text {
+            font-size: 1rem;
+            color: #1A1A1A;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #E8E6E3;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(26, 26, 26, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #C4ACE3, #B8DCF2);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .result-card {
+            text-align: center;
+            background: rgba(248, 246, 240, 0.95);
+            border-radius: 25px;
+            padding: 50px 40px;
+            box-shadow: 0 15px 40px rgba(26, 26, 26, 0.1);
+            border: 2px solid rgba(196, 172, 227, 0.3);
+            animation: slideInUp 0.6s ease-out;
+            position: relative;
+        }
+
+        .theory-symbol {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .theory-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #C4ACE3, #B8DCF2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .theory-member {
+            font-size: 1.2rem;
+            color: #1A1A1A;
+            margin-bottom: 25px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .theory-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #1A1A1A;
+            margin-bottom: 30px;
+            text-align: left;
+            background: rgba(248, 246, 240, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #C4ACE3;
+        }
+
+        .share-section {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(196, 172, 227, 0.3);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #C4ACE3, #B8DCF2);
+            color: white;
+            box-shadow: 0 6px 15px rgba(196, 172, 227, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(196, 172, 227, 0.4);
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #B8DCF2, #C4ACE3);
+            color: white;
+            box-shadow: 0 6px 15px rgba(184, 220, 242, 0.3);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(184, 220, 242, 0.4);
+        }
+
+        .question-counter {
+            background: linear-gradient(135deg, #C4ACE3, #B8DCF2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(196, 172, 227, 0.2);
+        }
+
+        .footer-credit {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: #1A1A1A;
+            opacity: 0.7;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .footer-credit-results {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(196, 172, 227, 0.2);
+            font-size: 0.85rem;
+            color: #1A1A1A;
+            opacity: 0.7;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fun-emoji {
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 15px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+            
+            .welcome-page, .quiz-card, .result-card {
+                padding: 30px 20px 60px 20px;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .theory-preview {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+                padding: 20px 15px;
+            }
+            
+            .theory-icon {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <div class="logo">IVEORY</div>
+            <div class="subtitle">Discover Your Inner Theory</div>
+        </div>
+
+        <div id="welcome-section" class="welcome-page">
+            <div class="welcome-title">The Theory Codex</div>
+            <div class="welcome-description">
+                Journey into the realm of IVEORY, where six noble theories await your discovery. 
+                Each embodies a unique path to grace, wisdom, and inner nobility.
+            </div>
+            
+            <div class="theory-preview">
+                <div class="theory-icon">♔</div>
+                <div class="theory-icon">♡</div>
+                <div class="theory-icon">✧</div>
+                <div class="theory-icon">◈</div>
+                <div class="theory-icon">◊</div>
+                <div class="theory-icon">⚜</div>
+            </div>
+            
+            <p style="margin-bottom: 25px; color: #1A1A1A; font-style: italic; font-size: 1rem; opacity: 0.8;">
+                "Born from starlight, refined by theory, destined to inspire."
+            </p>
+            
+            <button class="start-btn" onclick="startQuiz()">
+                Begin Your Assessment <span class="fun-emoji">✨</span>
+            </button>
+
+            <div class="footer-credit">
+                Made by IVEORY [Astranova Entertainment]
+            </div>
+        </div>
+
+        <div id="quiz-section" class="quiz-card hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+
+            <div class="question" id="question-container">
+                <!-- Questions will be inserted here -->
+            </div>
+        </div>
+
+        <div id="result-section" class="result-card hidden">
+            <!-- Results will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentQuestion = 0;
+        let answers = {};
+
+        const questions = [
+            {
+                question: "When your friend texts you about their latest drama, you:",
+                options: [
+                    { text: "Listen without judgment and remind them that their feelings are totally valid 💕", theory: "softness" },
+                    { text: "Help them see the situation clearly - no sugarcoating, just honest truth ✨", theory: "purity" },
+                    { text: "Guide them to handle it like the main character they are - with style! 👑", theory: "elegance" },
+                    { text: "Show them how to navigate it smoothly without burning any bridges 🌸", theory: "grace" },
+                    { text: "Share timeless wisdom your grandma would approve of 🕊️", theory: "timelessness" },
+                    { text: "Help them find their zen and approach it with a clear mind 🧘‍♀️", theory: "serenity" }
+                ]
+            },
+            {
+                question: "Your dream aesthetic is:",
+                options: [
+                    { text: "Soft girl vibes - pastels, plushies, and all things cozy 🧸", theory: "softness" },
+                    { text: "Clean girl energy - minimal makeup, natural beauty, authentic you ✨", theory: "purity" },
+                    { text: "Dark academia meets royal core - sophisticated and timeless 📚", theory: "elegance" },
+                    { text: "Ethereal fairy vibes - flowing fabrics and dreamy movements 🧚‍♀️", theory: "grace" },
+                    { text: "Classic vintage - pieces that never go out of style 🕊️", theory: "timelessness" },
+                    { text: "Zen minimalist - peaceful spaces and calming neutrals 🕯️", theory: "serenity" }
+                ]
+            },
+            {
+                question: "In your friend group, you're known as:",
+                options: [
+                    { text: "The mom friend who always has snacks and gives the best hugs 🤗", theory: "softness" },
+                    { text: "The truth-teller who calls out BS but with love 💎", theory: "purity" },
+                    { text: "The one with impeccable taste who makes everything look effortless ✨", theory: "elegance" },
+                    { text: "The mediator who can smooth over any awkward situation 🕊️", theory: "grace" },
+                    { text: "The wise one with great advice and old soul energy 🌙", theory: "timelessness" },
+                    { text: "The zen master who never loses their cool, even in chaos 🧘‍♀️", theory: "serenity" }
+                ]
+            },
+            {
+                question: "When you're getting ready for a night out:",
+                options: [
+                    { text: "Comfort is key - cute but I can actually move and breathe 💕", theory: "softness" },
+                    { text: "I want to look like myself but elevated - no fake personas 💎", theory: "purity" },
+                    { text: "Serving looks that would make Pinterest jealous ✨", theory: "elegance" },
+                    { text: "Something that moves beautifully and photographs like a dream 📸", theory: "grace" },
+                    { text: "Classic pieces that could work in any decade 🕊️", theory: "timelessness" },
+                    { text: "Whatever makes me feel most centered and confident 🌸", theory: "serenity" }
+                ]
+            },
+            {
+                question: "Your ideal Saturday morning:",
+                options: [
+                    { text: "Sleeping in, then cozying up with my favorite comfort show 🛌", theory: "softness" },
+                    { text: "Marie Kondo-ing my space and decluttering my mind 🧹", theory: "purity" },
+                    { text: "Curating my space and creating content that looks effortlessly chic 📱", theory: "elegance" },
+                    { text: "Yoga flow or dance session to connect mind and body 🧘‍♀️", theory: "grace" },
+                    { text: "Reading a classic book or visiting a museum for inspiration 📚", theory: "timelessness" },
+                    { text: "Meditation, journaling, or just sitting in peaceful silence ☕", theory: "serenity" }
+                ]
+            },
+            {
+                question: "When life gets overwhelming, your go-to is:",
+                options: [
+                    { text: "Self-care mode: bubble bath, face mask, and being gentle with myself 🛁", theory: "softness" },
+                    { text: "Get real about what's actually important and drop the rest 💎", theory: "purity" },
+                    { text: "Handle it with grace and make it look like I've got it all together ✨", theory: "elegance" },
+                    { text: "Go with the flow and adapt - like water around a rock 🌊", theory: "grace" },
+                    { text: "Remember that 'this too shall pass' and trust the process 🕊️", theory: "timelessness" },
+                    { text: "Find a quiet space to breathe and reset my energy 🧘‍♀️", theory: "serenity" }
+                ]
+            },
+            {
+                question: "Your superpower would be:",
+                options: [
+                    { text: "Making anyone feel instantly loved and understood 💕", theory: "softness" },
+                    { text: "Seeing through lies and helping people find their authentic truth ✨", theory: "purity" },
+                    { text: "Making anything look absolutely stunning with minimal effort 👑", theory: "elegance" },
+                    { text: "Turning awkward moments into beautiful, flowing interactions 🌸", theory: "grace" },
+                    { text: "Understanding the bigger picture and how everything connects 🌙", theory: "timelessness" },
+                    { text: "Bringing instant calm to any chaotic situation 🕊️", theory: "serenity" }
+                ]
+            },
+            {
+                question: "Your ideal first date vibe:",
+                options: [
+                    { text: "Something cozy where we can actually talk and be comfortable 🥰", theory: "softness" },
+                    { text: "Real conversations about what actually matters to us 💎", theory: "purity" },
+                    { text: "Somewhere aesthetically pleasing that would make great photos 📸", theory: "elegance" },
+                    { text: "An activity where we can move together - dancing, mini golf, etc. 💃", theory: "grace" },
+                    { text: "A classic spot with history - museum, bookstore, old café 📚", theory: "timelessness" },
+                    { text: "Somewhere peaceful where we can actually hear each other think 🌿", theory: "serenity" }
+                ]
+            }
+        ];
+
+        const theories = {
+            serenity: {
+                symbol: "♔",
+                title: "Theory of Serenity",
+                member: "Azariah - The Queen",
+                description: "You're the friend everyone turns to when the world feels chaotic because you have this amazing gift of staying calm in any storm. Your serenity isn't about being passive - it's about choosing peace as your superpower. Like Azariah, you understand that real leadership comes from inner strength, not loud voices. Your presence is literally a safe space for others! 🕊️✨",
+                color: "#2C5F7A"
+            },
+            softness: {
+                symbol: "♡",
+                title: "Theory of Softness", 
+                member: "Aemory - The Lady",
+                description: "You've mastered the art of being strong AND gentle - which is honestly the most powerful combination ever. Your softness isn't weakness; it's the confidence to stay tender in a world that tries to make everyone hard. Like Aemory, you prove every day that kindness is courage and that sometimes the bravest thing you can do is choose compassion over conflict. You're literally healing the world just by being you! 💕🌸",
+                color: "#D4574A"
+            },
+            grace: {
+                symbol: "✧",
+                title: "Theory of Grace",
+                member: "Viorael - The Duchess", 
+                description: "You have this magical ability to make everything around you more beautiful just by existing. Your grace flows through every conversation, every movement, every choice you make. Like Viorael, you understand that true power isn't about force - it's about moving through life like poetry in motion. You turn awkward moments into art and make the difficult look effortless! ✨💃",
+                color: "#8B4A94"
+            },
+            timelessness: {
+                symbol: "◈",
+                title: "Theory of Timelessness",
+                member: "Elle - The Empress",
+                description: "You're basically an old soul with young energy! You have this incredible ability to see the bigger picture and understand what really matters beyond all the temporary drama. Like Elle, you carry ancient wisdom but make it feel fresh and relevant. Your choices are guided by principles that never go out of style, and people trust your judgment because you see beyond the moment into what truly lasts. 🌙📚",
+                color: "#C7834B"
+            },
+            purity: {
+                symbol: "◊",
+                title: "Theory of Purity",
+                member: "Aria - The Countess",
+                description: "You see the world with crystal-clear vision and aren't afraid to speak your truth - even when it's not what people want to hear. Your purity isn't about being perfect; it's about being authentically, unapologetically YOU. Like Aria, you cut through the noise and help others find their real selves beneath all the masks. You're the friend who keeps it 100 and helps everyone else do the same! 💎✨",
+                color: "#4A7C8B"
+            },
+            elegance: {
+                symbol: "⚜",
+                title: "Theory of Elegance",
+                member: "Kumi - The Princess",
+                description: "You have this effortless ability to make everything look intentional and beautiful. Your elegance isn't about being fancy - it's about having great taste and making thoughtful choices. Like Kumi, you bridge the gap between accessible and aspirational, making sophistication feel approachable. You're the person whose aesthetic everyone secretly tries to copy because you make the complex look simple and the ordinary look extraordinary! 👑✨",
+                color: "#6B8B4A"
+            }
+        };
+
+        // Functions
+        function startQuiz() {
+            document.getElementById('welcome-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('question-container');
+            
+            container.innerHTML = `
+                <div class="question-counter">Question ${currentQuestion + 1} of ${questions.length}</div>
+                <h3>${question.question}</h3>
+                <div class="options">
+                    ${question.options.map((option, index) => `
+                        <div class="option" onclick="selectOption(${index}, '${option.theory}')">
+                            <div class="option-text">${option.text}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function selectOption(index, theory) {
+            answers[currentQuestion] = theory;
+            
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            const selectedElement = document.querySelectorAll('.option')[index];
+            selectedElement.classList.add('selected');
+            
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    displayQuestion();
+                } else {
+                    showResults();
+                }
+            }, 600);
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function calculateResult() {
+            const scores = {};
+            
+            Object.values(answers).forEach(theory => {
+                scores[theory] = (scores[theory] || 0) + 1;
+            });
+
+            return Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        }
+
+        function showResults() {
+            const resultTheory = calculateResult();
+            const theory = theories[resultTheory];
+            
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+            
+            document.getElementById('result-section').innerHTML = `
+                <div class="theory-symbol" style="color: ${theory.color}">${theory.symbol}</div>
+                <div class="theory-title">${theory.title}</div>
+                <div class="theory-member">${theory.member}</div>
+                <div class="theory-description">${theory.description}</div>
+                
+                <div class="share-section">
+                    <p style="margin-bottom: 20px; color: #1A1A1A; font-weight: 500; font-size: 1rem; font-style: italic;">
+                        <span class="fun-emoji">🌟</span>
+                        "Born from starlight, refined by theory, destined to inspire."
+                        <span class="fun-emoji">🌟</span>
+                    </p>
+                    <div style="margin: 25px 0;">
+                        <a href="https://thisisiveory.crd.co" target="_blank" style="
+                            display: inline-block;
+                            background: linear-gradient(135deg, #F8F6F0, #E8E6E3);
+                            color: #1A1A1A;
+                            padding: 12px 25px;
+                            border-radius: 20px;
+                            text-decoration: none;
+                            font-weight: 600;
+                            border: 2px solid #C4ACE3;
+                            transition: all 0.3s ease;
+                            margin: 0 5px;
+                            box-shadow: 0 4px 12px rgba(196, 172, 227, 0.2);
+                        " onmouseover="this.style.background='linear-gradient(135deg, #C4ACE3, #B8DCF2)'; this.style.color='white'; this.style.transform='translateY(-2px)';" 
+                           onmouseout="this.style.background='linear-gradient(135deg, #F8F6F0, #E8E6E3)'; this.style.color='#1A1A1A'; this.style.transform='translateY(0px)';">
+                            VISIT THE IVEORY THRONE <span class="fun-emoji">👑</span>
+                        </a>
+                    </div>
+                    <button class="btn btn-primary" onclick="shareResult('${resultTheory}')">
+                        Share Your Theory <span class="fun-emoji">🚀</span>
+                    </button>
+                    <button class="btn restart-btn" onclick="restartQuiz()">
+                        Take Again <span class="fun-emoji">🔄</span>
+                    </button>
+                </div>
+
+                <div class="footer-credit-results">
+                    Made by IVEORY [Astranova Entertainment]
+                </div>
+            `;
+        }
+
+        function shareResult(theory) {
+            const theoryData = theories[theory];
+            const shareText = `I embody the ${theoryData.title}! My IVEORY court awaits. Discover your inner nobility at thisisiveory.crd.co ✨ #IVEORY #TheTheoryCodex #MyTheory`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My IVEORY Theory Result',
+                    text: shareText,
+                    url: 'https://thisisiveory.crd.co'
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    const notification = document.createElement('div');
+                    notification.innerHTML = 'Result copied to clipboard! ✨';
+                    notification.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: linear-gradient(135deg, #C4ACE3, #B8DCF2);
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 20px;
+                        font-weight: 600;
+                        box-shadow: 0 8px 20px rgba(196, 172, 227, 0.3);
+                        z-index: 10000;
+                        animation: slideInRight 0.3s ease-out;
+                    `;
+                    document.body.appendChild(notification);
+                    setTimeout(() => notification.remove(), 2500);
+                }).catch(() => {
+                    alert('Result ready to share!');
+                });
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = {};
+            
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('welcome-section').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
