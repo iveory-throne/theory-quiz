@@ -56,7 +56,7 @@
         }
 
         .logo {
-            margin-bottom: 2px;
+            margin-bottom: 5px;
             text-align: center;
         }
 
@@ -467,6 +467,7 @@
         // Global variables
         let currentQuestion = 0;
         let answers = {};
+        let shuffledQuestions = [];
 
         const questions = [
             {
@@ -604,15 +605,31 @@
             }
         };
 
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
         // Functions
         function startQuiz() {
+            // Shuffle the options for each question
+            shuffledQuestions = questions.map(question => ({
+                ...question,
+                options: shuffleArray(question.options)
+            }));
+            
             document.getElementById('welcome-section').classList.add('hidden');
             document.getElementById('quiz-section').classList.remove('hidden');
             displayQuestion();
         }
 
         function displayQuestion() {
-            const question = questions[currentQuestion];
+            const question = shuffledQuestions[currentQuestion];
             const container = document.getElementById('question-container');
             
             container.innerHTML = `
@@ -751,6 +768,7 @@
         function restartQuiz() {
             currentQuestion = 0;
             answers = {};
+            shuffledQuestions = [];
             
             document.getElementById('result-section').classList.add('hidden');
             document.getElementById('welcome-section').classList.remove('hidden');
